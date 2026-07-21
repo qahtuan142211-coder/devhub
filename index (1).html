@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Mini CSS 3D Parkour</title><style>
+html,body{margin:0;height:100%;overflow:hidden;background:linear-gradient(#7cf,#def);perspective:900px;font-family:sans-serif}
+#scene{position:absolute;left:50%;top:55%;transform-style:preserve-3d;transform:translate(-50%,-50%) rotateX(65deg);}
+.tile{position:absolute;width:80px;height:80px;background:#6c6;border:2px solid #383;transform-style:preserve-3d;box-shadow:0 10px 20px rgba(0,0,0,.3)}
+.player{position:absolute;width:30px;height:30px;background:#f33;border-radius:50%;z-index:9;transform:translateZ(20px)}
+#ui{position:fixed;left:10px;top:10px;background:#0008;color:#fff;padding:8px}
+</style></head><body><div id="ui">WASD di chuyển - tới ô cuối màu vàng.</div><div id="scene"></div><script>
+const s=document.getElementById('scene');
+const map=[
+"1111111111",
+"1000010001",
+"1011010101",
+"1010010101",
+"1011110101",
+"1000000101",
+"1111111101",
+"1000000001",
+"1011111111",
+"1111111112"];
+let px=0,py=0;
+for(let y=0;y<10;y++)for(let x=0;x<10;x++){let c=map[y][x];if(c!='0'){let d=document.createElement('div');d.className='tile';d.style.left=x*90+'px';d.style.top=y*90+'px';if(c=='2')d.style.background='gold';s.appendChild(d);}}
+const p=document.createElement('div');p.className='player';s.appendChild(p);
+function draw(){p.style.left=px*90+25+'px';p.style.top=py*90+25+'px';}
+draw();
+onkeydown=e=>{
+ let nx=px,ny=py;
+ if(e.key=='w')ny--; if(e.key=='s')ny++; if(e.key=='a')nx--; if(e.key=='d')nx++;
+ if(map[ny]&&map[ny][nx]&&map[ny][nx]!='0'){px=nx;py=ny;draw(); if(map[py][px]=='2')setTimeout(()=>alert('Bạn thắng!'),10);}
+}
+</script></body></html>
